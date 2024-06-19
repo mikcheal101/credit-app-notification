@@ -20,7 +20,7 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
     - name: Build Docker image
-      run: docker build -t credit-app-notification .
+      run: docker build -t credit-app-notification ./src
 
     - name: Push to Dockerhub
       run: docker push mikcheal101/credit-app-notification:latest
