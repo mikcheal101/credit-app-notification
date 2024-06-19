@@ -1,6 +1,6 @@
 FROM python:3.10-alpine
 
-WORKDIR /src
+WORKDIR /dist
 
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0

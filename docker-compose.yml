@@ -6,9 +6,9 @@ services:
     environment:
       - APP_NAME=Notification_Service
     ports:
-      - 8080:5000
+      - 80:5000
 
-  nginx:
-    build: ./nginx/.
-    container_name: nginx
-    restart: always
+  # nginx:
+  #   build: ./nginx/.
+  #   container_name: nginx
+  #   restart: always
