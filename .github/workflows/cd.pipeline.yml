@@ -1,0 +1,23 @@
+name: Docker Image [CD Pipeline]
+
+# Trigger only, when build workflow succeeds.
+on:
+  workflow_run:
+    workflows:
+      - "Docker Image [CI pipeline]"
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: self-hosted
+    
+    steps:
+      - name: Pull Docker Image
+        run: sudo docker pull mikkytrionze/credit-app-notification:latest
+
+      - name: Remove the old Docker container
+        run: sudo docker rm -f credit-app-notification-container || true
+
+      - name: Run the latest docker content
+        run: sudo docker run -d -p 8080:8080 --name credit-app-notification-container mikkytrionze/credit-app-notification
