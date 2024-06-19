@@ -20,10 +20,10 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
     - name: Build Docker image
-      run: docker build -t credit-app-notification ./src
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/credit-app-notification ./src
 
     - name: Push to Dockerhub
-      run: docker push credit-app-notification:latest
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/credit-app-notification:latest
 
 
     # deploy:
