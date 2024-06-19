@@ -3,8 +3,7 @@ name: Docker Image [CD Pipeline]
 # Trigger only, when build workflow succeeds.
 on:
   workflow_run:
-    workflows:
-      - "Docker Image [CI pipeline]"
+    workflows: ["Docker Image [CI pipeline]"]
     types:
       - completed
 
