@@ -1,27 +1,23 @@
 import awsgi
-
 import sys
+import flask
 
-from flask import (
-    Flask,
-    jsonify
-)
 from flask_restful import Resource, Api
 
 
-application = Flask(__name__)
+application = flask.Flask(__name__)
 api = Api(application)
 portNumber = 5000
 
 if sys.argv.__len__() > 1:
-    portNumber = sys.argv[1]
-    
+  portNumber = sys.argv[1]
+
 print("System running on port: {}".format(portNumber))
 
 
 class Notification(Resource):
-    def get(self):
-        return jsonify(status = 200, message = "OK")
+  def get(self):
+    return flask.jsonify(status = 200, message = "OK")
 
 # api.add_resource(Notification, "/version")
 # @app.route("/version")
@@ -31,6 +27,5 @@ class Notification(Resource):
 # @app.route("/profile")
 # def get_profile():
 #         return jsonify(name="AWS Dev")
-    
 if __name__ == "__main__":
-    application.run(host="0.0.0.0", port=portNumber)
+  application.run(host="0.0.0.0", port=portNumber)
