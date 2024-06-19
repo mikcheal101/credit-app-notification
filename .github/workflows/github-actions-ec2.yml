@@ -1,0 +1,51 @@
+name: Push-to-EC2_Instance
+
+# Trigger deployment only when pushed to the main branch
+on:
+    push:
+        branches:
+            - main
+            
+jobs:
+    deploy:
+        name: Deploy notification service to an EC2 instance via master branch
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout the files
+              uses: actions/checkout@v2
+
+            - name: Deploy to server 1
+              uses: easingthemes/ssh-deploy@main
+              env:
+                SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+                REMOTE_HOST: ${{ secrets.HOST_DNS }}
+                REMOTE_USER: ${{ secrets.USERNAME }}
+                TARGET: ${{ secrets.TARGET_DIR }}
+
+            - name: Executing remote ssh commands using ssh key
+              uses: appleboy/ssh-action@master
+              with:
+                host: ${{ secrets.HOST_DNS }}
+                username: ${{ secrets.USERNAME }}
+                key: ${{ secrets.EC2_SSH_KEY }}
+                script: |
+                    sudo yum -y update
+                    sudo yum install -y httpd
+                    sudo systemctl start httpd
+                    sudo systemctl enable httpd
+                    sudo yum remove docker \
+                        docker-client \
+                        docker-client-latest \
+                        docker-common \
+                        docker-latest \
+                        docker-latest-logrotate \
+                        docker-logrotate \
+                        docker-engine
+                    sudo amazon-linux-extras install docker -y
+                    sudo service docker start
+                    sudo usermod -a -G docker ec2-user
+                    sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+                    sudo chmod +x /usr/local/bin/docker-compose
+
+                    cd /home/ec2-user/
