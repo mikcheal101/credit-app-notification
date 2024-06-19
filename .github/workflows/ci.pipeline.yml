@@ -7,64 +7,34 @@ on:
       - main
 
 jobs:
-  
-  build:
-    name: This builds the docker image from the source code
+  deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Login to Dockerhub
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD }}
-      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - uses: aws-actions/setup-sam@v2
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      - run: sam build --use-container
+      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
+  
+  # build:
+  #   name: This builds the docker image from the source code
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Login to Dockerhub
+  #     env:
+  #       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  #       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD }}
+  #     run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
-    - name: Build Docker image
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/credit-app-notification ./src
+  #   - name: Build Docker image
+  #     run: docker build -t ${{ secrets.DOCKER_USERNAME }}/credit-app-notification ./src
 
-    - name: Push to Dockerhub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/credit-app-notification:latest
+  #   - name: Push to Dockerhub
+  #     run: docker push ${{ secrets.DOCKER_USERNAME }}/credit-app-notification:latest
 
-
-    # deploy:
-    #     name: Deploy notification service to an EC2 instance via master branch
-    #     runs-on: ubuntu-latest
-
-    #     steps:
-    #         - name: Checkout the files
-    #           uses: actions/checkout@v2
-
-    #         - name: Deploy to server 1
-    #           uses: easingthemes/ssh-deploy@main
-    #           env:
-    #             SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-    #             REMOTE_HOST: ${{ secrets.HOST_DNS }}
-    #             REMOTE_USER: ${{ secrets.USERNAME }}
-    #             TARGET: ${{ secrets.TARGET_DIR }}
-
-    #         - name: Executing remote ssh commands using ssh key
-    #           uses: appleboy/ssh-action@master
-    #           with:
-    #             host: ${{ secrets.HOST_DNS }}
-    #             username: ${{ secrets.USERNAME }}
-    #             key: ${{ secrets.EC2_SSH_KEY }}
-    #             script: |
-    #                 sudo yum -y update
-    #                 sudo yum install -y httpd
-    #                 sudo systemctl start httpd
-    #                 sudo systemctl enable httpd
-    #                 sudo yum remove docker \
-    #                     docker-client \
-    #                     docker-client-latest \
-    #                     docker-common \
-    #                     docker-latest \
-    #                     docker-latest-logrotate \
-    #                     docker-logrotate \
-    #                     docker-engine
-    #                 sudo amazon-linux-extras install docker -y
-    #                 sudo service docker start
-    #                 sudo usermod -a -G docker ec2-user
-    #                 sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-    #                 sudo chmod +x /usr/local/bin/docker-compose
-
-    #                 cd /home/ec2-user/
