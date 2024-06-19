@@ -1,4 +1,4 @@
-name: Docker Image [CD Pipeline]
+name: CD Pipeline
 
 # Trigger only, when build workflow succeeds.
 on:
