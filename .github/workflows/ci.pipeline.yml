@@ -7,6 +7,17 @@ on:
       - main
 
 jobs:
+  build:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Current Commit.
+        uses: actions/checkout@v4
+        
+      - name: Check and build Docker Images.
+        if: ${{ hashFiles("docker-compose.yml") != '' }}
+        run: sudo docker compose down && sudo docker compose up -d
+
   deploy:
     runs-on: ubuntu-latest
     steps:
