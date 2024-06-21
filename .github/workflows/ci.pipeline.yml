@@ -31,8 +31,14 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
-      - run: sam build --use-container
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
+
+      - name: Sam Build Application
+        if: ${{ hashFiles('template.yaml') != '' }}
+        run: sam build --use-container
+        
+      - name: Sam Deploy
+        if: ${{ hashFiles('template.yaml') != '' }}
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
   
   # build:
   #   name: This builds the docker image from the source code
