@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build Docker Images
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout Current Commit.
         uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
         run: sudo docker compose down && sudo docker compose up -d
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -36,7 +36,7 @@ jobs:
   
   # build:
   #   name: This builds the docker image from the source code
-  #   runs-on: ubuntu-latest
+  #   runs-on: self-hosted
   #   steps:
   #   - uses: actions/checkout@v3
   #   - name: Login to Dockerhub
