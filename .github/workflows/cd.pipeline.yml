@@ -20,3 +20,4 @@ jobs:
       - name: Run Docker Compose
         if: ${{ hashFiles('docker-compose.yml') != '' }}
         run: docker-compose up
+
