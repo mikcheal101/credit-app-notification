@@ -17,4 +17,7 @@ jobs:
         if: ${{ hashFiles('docker-compose.yml') != '' }}
         uses: adambirds/docker-compose-action@v1.3.0
         with:
-          compose-file: ./docker-compose.yml
+          compose-file: "./docker-compose.yml"
+
+      - name: Test docker compose
+        run: docker-compose --version
