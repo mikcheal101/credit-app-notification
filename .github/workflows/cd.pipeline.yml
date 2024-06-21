@@ -16,8 +16,6 @@ jobs:
       - name: Run the latest service build.
         if: ${{ hashFiles('docker-compose.yml') != '' }}
         uses: adambirds/docker-compose-action@v1.3.0
-        with:
-          compose-file: "./docker-compose.yml"
 
       - name: Run Docker Compose
-        run: docker-compose up -d
+        run: docker-compose up
