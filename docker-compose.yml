@@ -7,8 +7,16 @@ services:
       - APP_NAME=Notification_Service
     ports:
       - 80:5000
+    depends_on:
+      - db
 
-  # nginx:
-  #   build: ./nginx/.
-  #   container_name: nginx
-  #   restart: always
+  db:
+    image: mongo:latest
+    container_name: notification_db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+    ports:
+      - 27017:27017
+    restart: always
+    command: ["mongod"]

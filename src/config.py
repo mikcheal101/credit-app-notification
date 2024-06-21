@@ -21,7 +21,7 @@ class ProductionConfig(Config):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.getenv("PRODUCTION_DATABASE_URL")
 
-config = {
+configuration = {
     "development": DevelopmentConfig,
     "testing": TestingConfig,
     "staging": StagingConfig,
