@@ -48,21 +48,3 @@ jobs:
       - name: Sam Deploy
         if: ${{ hashFiles('template.yaml') != '' }}
         run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
-  
-  # build:
-  #   name: This builds the docker image from the source code
-  #   runs-on: self-hosted
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - name: Login to Dockerhub
-  #     env:
-  #       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  #       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD }}
-  #     run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-
-  #   - name: Build Docker image
-  #     run: docker build -t ${{ secrets.DOCKER_USERNAME }}/credit-app-notification ./src
-
-  #   - name: Push to Dockerhub
-  #     run: docker push ${{ secrets.DOCKER_USERNAME }}/credit-app-notification:latest
-
