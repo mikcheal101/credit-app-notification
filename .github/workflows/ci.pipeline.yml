@@ -16,14 +16,10 @@ jobs:
 
       - name: Setup Docker
         uses: docker/setup-buildx-action@v2
-      
-      - name: Setup Docker compose.
-        uses: ndeloof/install-compose-action@v0.0.1
-      - run: docker-compose --version
 
       - name: Check and build Docker Images.
         if: ${{ hashFiles('docker-compose.yml') != '' }}
-        run: sudo docker-compose down && sudo docker-compose up -d
+        run: sudo docker build ./src/ -t notification-service:latest
 
   deploy: #
     runs-on: self-hosted
