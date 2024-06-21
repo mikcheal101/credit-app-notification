@@ -19,7 +19,10 @@ class Notification(Resource):
   def get(self):
     return flask.jsonify(status = 200, message = "OK")
 
-# api.add_resource(Notification, "/version")
+
+api.add_resource(Notification, "/notification")
+
+
 # @app.route("/version")
 # def get_version():
 #         return {"version": "1.0.0"}
