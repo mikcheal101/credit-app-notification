@@ -13,4 +13,4 @@ jobs:
     steps:
       - name: Run the latest service build.
         if: ${{ hashFiles('docker-compose.yml') != '' }}
-        run: docker ps -a
+        run: docker run -d notification-service:latest
