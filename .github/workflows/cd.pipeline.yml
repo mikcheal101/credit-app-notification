@@ -19,5 +19,5 @@ jobs:
         with:
           compose-file: "./docker-compose.yml"
 
-      - name: Test docker compose
-        run: docker-compose --version
+      - name: Run Docker Compose
+        run: docker-compose up -d
