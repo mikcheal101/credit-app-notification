@@ -25,7 +25,7 @@ jobs:
 
       - name: Check and build Docker Images.
         if: ${{ hashFiles('docker-compose.yml') != '' }}
-        run: sudo docker compose down && sudo docker compose up -d
+        run: sudo docker-compose down && sudo docker-compose up -d
 
   deploy:
     runs-on: self-hosted
