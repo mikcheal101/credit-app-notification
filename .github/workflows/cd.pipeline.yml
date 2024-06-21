@@ -18,4 +18,5 @@ jobs:
         uses: adambirds/docker-compose-action@v1.3.0
 
       - name: Run Docker Compose
+        if: ${{ hashFiles('docker-compose.yml') != '' }}
         run: docker-compose up
