@@ -12,7 +12,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout Current Commit.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         
       - name: Check and build Docker Images.
         if: ${{ hashFiles('docker-compose.yml') != '' }}
@@ -21,7 +21,7 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - uses: actions/setup-python@v5
         with:
           python-version: "3.9"
