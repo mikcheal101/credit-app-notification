@@ -19,26 +19,4 @@ jobs:
 
       - name: Check and build Docker Images.
         if: ${{ hashFiles('docker-compose.yml') != '' }}
-        run: sudo docker build ./src/ -t notification-service:latest
-
-  deploy: #
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.9"
-      - uses: aws-actions/setup-sam@v2
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
-      - name: Sam Build Application
-        if: ${{ hashFiles('template.yaml') != '' }}
-        run: sam build --use-container
-        
-      - name: Sam Deploy
-        if: ${{ hashFiles('template.yaml') != '' }}
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
+        run: docker build ./src/ -t notification-service:latest
