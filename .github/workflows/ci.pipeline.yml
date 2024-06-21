@@ -14,7 +14,6 @@ jobs:
       - name: Checkout Current Commit.
         uses: actions/checkout@v3
 
-      # Setup and build for docker folders
       - name: Setup Docker
         if: ${{ hashFiles('docker-compose.yml') != '' }}
         uses: docker/setup-buildx-action@v2
@@ -22,22 +21,5 @@ jobs:
       - name: Check and build Docker Images.
         if: ${{ hashFiles('docker-compose.yml') != '' }}
         run: docker build ./src/ -t notification-service:latest
-
-      # Setup and build for sam folders
-      - name: Setup Sam
-        if: ${{ hashFiles('samconfig.toml') != '' }}
-        uses: aws-actions/setup-sam@v2
-      
-      - name: Setup AWS Credentials
-        if: ${{ hashFiles('samconfig.toml') != '' }}
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-
-      - name: Sam Build Image
-        if: ${{ hashFiles('samconfig.toml') != '' }}
-        run: sam build --use-container
 
         
